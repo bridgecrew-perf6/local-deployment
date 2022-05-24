@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  ace:
+    image: icr.io/appc-dev/ace-server:12.0.4.0-r1-20220425-122159-amd64
+    ports:
+      - 7600:7600
+      - 7800:7800
+      - 7843:7843
+      - 9997:9997
+    environment:
+      - LICENSE=accept
+      - ACE_SERVER_NAME=ACESERVER
+    volumes:
+      - ./initial-config:/home/aceuser/initial-config
+
+networks:
+  default:
+    name: rest-ws
