@@ -1,8 +1,8 @@
-FROM ibmcom/mq:9.2.0.0-r1-amd64
+FROM redhat/ubi8
 
 USER root
-RUN microdnf install --nodocs java-1.8.0-openjdk-headless openssl make \
-  && microdnf clean all
+RUN yum install -y --nodocs openssl make \
+  && yum clean all
 
 COPY src /src
 

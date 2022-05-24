@@ -1,22 +1,19 @@
 .PHONY: all clean
 
-all: ${PREFIX}-ca ${PREFIX}-ace-server ${PREFIX}-client ${PREFIX}-soap-server
+all: ${PREFIX}-ca ${PREFIX}-ace-server ${PREFIX}-client
 
 ${PREFIX}-ca: ORGANISATION_UNIT = ${ORGANISATION}_CA
-${PREFIX}-ca: ${PREFIX}-ca.key ${PREFIX}-ca.crt ${PREFIX}-ca.jks
+${PREFIX}-ca: ${PREFIX}-ca.key ${PREFIX}-ca.crt
 
 ${PREFIX}-ace-server: ORGANISATION_UNIT = ${ORGANISATION}_ACE
-${PREFIX}-ace-server: ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt ${PREFIX}-ace-server.jks
-
-${PREFIX}-soap-server: ORGANISATION_UNIT = ${ORGANISATION}_SOAP
-${PREFIX}-soap-server: ${PREFIX}-soap-server.jks
+${PREFIX}-ace-server: ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt
 
 ${PREFIX}-client: ORGANISATION_UNIT = ${ORGANISATION}_CLIENT
-${PREFIX}-client: ${PREFIX}-client.key ${PREFIX}-client.crt ${PREFIX}-client.jks
+${PREFIX}-client: ${PREFIX}-client.key ${PREFIX}-client.crt
 
 clean:
-	rm -f ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt ${PREFIX}-ace-server.p12 ${PREFIX}-ace-server.jks ${PREFIX}-ace-server.kdb ${PREFIX}-ace-server.sth ${PREFIX}-soap-server.jks
-	rm -f ${PREFIX}-client.key ${PREFIX}-client.crt ${PREFIX}-client.jks
+	rm -f ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt
+	rm -f ${PREFIX}-client.key ${PREFIX}-client.crt
 	rm -f ${PREFIX}-ca.key ${PREFIX}-ca.crt ${PREFIX}-ca.jks ${PREFIX}-ca.srl
 
 ${PREFIX}-ca.key:
