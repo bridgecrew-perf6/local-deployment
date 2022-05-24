@@ -12,6 +12,7 @@ services:
       - LICENSE=accept
       - ACE_SERVER_NAME=ACESERVER
       - ACE_KEYSTORE_PASSWORD=passw0rd
+      - ACE_TRUSTSTORE_PASSWORD=passw0rd
     volumes:
       - ./initial-config:/home/aceuser/initial-config
 

@@ -5,3 +5,11 @@ ResourceManagers:
     keystoreType: 'JKS'
     keystoreFile: '/home/aceuser/ace-server/keystore.jks'
     keystorePass: 'setdbparms::keystore'
+
+    truststoreType: 'JKS'
+    truststoreFile: '/home/aceuser/ace-server/truststore.jks'
+    truststorePass: 'setdbparms::truststore'
+
+  HTTPSConnector:
+    ReqClientAuth: true
+    CipherSpec: 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384'
