@@ -1,9 +1,9 @@
 .PHONY: all clean
 
-all: ${PREFIX}-ca ${PREFIX}-ace-server ${PREFIX}-client
+all: ${PREFIX}-ca ${PREFIX}-ace-server ${PREFIX}-client ${PREFIX}-soap-server
 
 ${PREFIX}-ca: ORGANISATION_UNIT = ${ORGANISATION}_CA
-${PREFIX}-ca: ${PREFIX}-ca.key ${PREFIX}-ca.crt
+${PREFIX}-ca: ${PREFIX}-ca.key ${PREFIX}-ca.crt ${PREFIX}-ca.jks
 
 ${PREFIX}-ace-server: ORGANISATION_UNIT = ${ORGANISATION}_ACE
 ${PREFIX}-ace-server: ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt
@@ -11,7 +11,11 @@ ${PREFIX}-ace-server: ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt
 ${PREFIX}-client: ORGANISATION_UNIT = ${ORGANISATION}_CLIENT
 ${PREFIX}-client: ${PREFIX}-client.key ${PREFIX}-client.crt
 
+${PREFIX}-soap-server: ORGANISATION_UNIT = ${ORGANISATION}_SOAP
+${PREFIX}-soap-server: ${PREFIX}-soap-server.jks
+
 clean:
+	rm -f ${PREFIX}-soap-server.jks
 	rm -f ${PREFIX}-ace-server.key ${PREFIX}-ace-server.crt
 	rm -f ${PREFIX}-client.key ${PREFIX}-client.crt
 	rm -f ${PREFIX}-ca.key ${PREFIX}-ca.crt ${PREFIX}-ca.jks ${PREFIX}-ca.srl
