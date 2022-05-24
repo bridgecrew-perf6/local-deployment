@@ -1,0 +1,49 @@
+= Spring Boot SOAP WS
+
+== The default (non-secure) version
+
+. Build the application
++
+[source,bash]
+----
+./gradlew clean build
+----
+
+. Run `docker-compose`
++
+[source,bash]
+----
+docker-compose up --build
+----
++
+use `up` option `-d` to run it in the background
+
+. Test it out
++
+[source, bash]
+----
+curl --location --request POST 'http://localhost:8080/ws' \
+--header 'Content-Type: text/xml' \
+--data-raw '<s11:Envelope xmlns:s11='\''http://schemas.xmlsoap.org/soap/envelope/'\''>
+  <s11:Body>
+    <sch:customerDetailsRequest xmlns:sch='\''http://ibm.com/CustomerDetails/'\''>
+      <sch:customer_details>
+        <sch:service_header>
+          <sch:brand>IBM</sch:brand>
+        </sch:service_header>
+        <sch:personal_details>
+          <sch:name_details>
+            <sch:first_name>saad</sch:first_name>
+            <sch:last_name>mia</sch:last_name>
+          </sch:name_details>
+          <sch:contact_details>
+            <sch:phone>333-7777777</sch:phone>
+            <sch:address>123 Main Street</sch:address>
+          </sch:contact_details>
+        </sch:personal_details>
+      </sch:customer_details>
+    </sch:customerDetailsRequest>
+  </s11:Body>
+</s11:Envelope>'
+----
+

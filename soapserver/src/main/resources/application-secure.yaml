@@ -1,0 +1,13 @@
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: /Users/mohammed.miaibm.com/workspace/work/learning/ace/ace-rest-ws/cloud-flare/ibm-soap-server.jks
+    key-store-password: passw0rd
+    trust-store: /Users/mohammed.miaibm.com/workspace/work/learning/ace/ace-rest-ws/cloud-flare/ibm-ca.jks
+    trust-store-password: passw0rd
+    client-auth: need
+
+spring:
+  jmx:
+    enabled: true

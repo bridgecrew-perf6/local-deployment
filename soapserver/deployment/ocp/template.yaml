@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: soapserver-nonsecure
+objects:
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: soapserver-nonsecure
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: soapserver-nonsecure
+      template:
+        metadata:
+          labels:
+            app: soapserver-nonsecure
+        spec:
+          containers:
+            - name: soapserver-nonsecure
+              image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/soapserver:v1
+              imagePullPolicy: Always
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: soapserver-nonsecure
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        app: soapserver-nonsecure
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: soapserver-nonsecure
+    spec:
+      to:
+        kind: Service
+        name: soapserver-nonsecure
+      port:
+        targetPort: web
+parameters:
+  - name: PREFIX
+  - name: NAMESPACE

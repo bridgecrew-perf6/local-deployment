@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  soapserver:
+    build:
+      context: ../..
+      dockerfile: $PWD/Dockerfile
+      args:
+        JAR_FILE: './build/libs/*.jar'
+    ports:
+      - 8443:8443
+    environment:
+      - SPRING_PROFILES_ACTIVE=secure
+      - SERVER_SSL_KEY_STORE=/certs/ibm-soap-server.jks
+      - SERVER_SSL_KEY_STORE_PASSWORD=passw0rd
+      - SERVER_SSL_TRUST_STORE=/certs/ibm-ca.jks
+      - SERVER_SSL_TRUST_STORE_PASSWORD=passw0rd
+    volumes:
+      - ../../../certs:/certs
+
+networks:
+  default:
+    name: rest-ws

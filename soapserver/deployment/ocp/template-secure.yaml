@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: soapserver
+objects:
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      name: ${PREFIX}-jks
+    data:
+      ${PREFIX}-soap-server.jks: ${SOAP_SERVER_JKS}
+      ${PREFIX}-ca.jks: ${CA_JKS}
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      name: ${PREFIX}-passwords
+    stringData:
+      CLIENT_SSL_KEY_STORE_PASSWORD: passw0rd
+      CLIENT_SSL_TRUST_STORE_PASSWORD: passw0rd
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: soapserver
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: soapserver
+      template:
+        metadata:
+          labels:
+            app: soapserver
+        spec:
+          containers:
+            - name: soapserver
+              image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/soapserver:v1
+              imagePullPolicy: Always
+              env:
+                - name: SPRING_PROFILES_ACTIVE
+                  value: secure
+                - name: SERVER_SSL_KEY_STORE
+                  value: /certs/ibm-soap-server.jks
+                - name: SERVER_SSL_TRUST_STORE
+                  value: /certs/ibm-ca.jks
+              envFrom:
+                - secretRef:
+                    name: ${PREFIX}-passwords
+              volumeMounts:
+                - name: certs
+                  mountPath: /certs
+          volumes:
+            - name: certs
+              secret:
+                secretName: ${PREFIX}-jks
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: soapserver
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8443
+          targetPort: 8443
+      selector:
+        app: soapserver
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: soapserver
+    spec:
+      to:
+        kind: Service
+        name: soapserver
+      port:
+        targetPort: web
+      tls:
+        termination: passthrough
+parameters:
+  - name: PREFIX
+  - name: NAMESPACE
+  - name: SOAP_SERVER_JKS
+  - name: CA_JKS
