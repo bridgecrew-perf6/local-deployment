@@ -1,0 +1,7 @@
+ResourceManagers:
+  JVM:
+    jvmDebugPort: 9997
+
+    keystoreType: 'JKS'
+    keystoreFile: '/home/aceuser/ace-server/keystore.jks'
+    keystorePass: 'setdbparms::keystore'
